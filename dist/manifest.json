@@ -1,0 +1,16 @@
+{
+  "name": "Hopeland Global Checkers",
+  "short_name": "Hopeland Checkers",
+  "description": "The international checkers championship — compete, connect, and rise to the top board.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#071040",
+  "theme_color": "#0EA5E9",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
