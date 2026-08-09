@@ -47,7 +47,7 @@ export default function RegistrationsList() {
         <select
           value={r.status}
           onChange={(e) => updateStatus.mutate({ id: r.id, status: e.target.value as RegistrationStatus })}
-          className="rounded-lg border border-black/10 bg-white px-2 py-1 text-xs font-bold"
+          className="w-full max-w-full rounded-lg border border-black/10 bg-white px-2 py-1 text-xs font-bold sm:w-auto"
         >
           {(['pending', 'paid', 'failed', 'refunded'] as RegistrationStatus[]).map((s) => (
             <option key={s} value={s}>
@@ -101,7 +101,7 @@ export default function RegistrationsList() {
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as RegistrationStatus | 'all')}
-          className="rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-primary"
+          className="w-full rounded-xl border border-black/10 bg-white px-4 py-2.5 text-sm outline-none focus:border-primary sm:w-auto"
         >
           <option value="all">All statuses</option>
           <option value="pending">Pending</option>

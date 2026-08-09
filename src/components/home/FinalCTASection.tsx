@@ -29,15 +29,15 @@ export function FinalCTASection() {
           </motion.p>
           <motion.div
             variants={slideFromLeft}
-            className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
+            className="mx-auto mt-8 flex w-full max-w-md flex-col items-stretch justify-center gap-3 sm:max-w-none sm:flex-row sm:items-center sm:gap-4"
           >
-            <Link to="/register">
-              <Button size="lg" icon={<ArrowRight size={18} />}>
+            <Link to="/register" className="min-w-0 sm:flex-none">
+              <Button size="lg" icon={<ArrowRight size={18} />} className="w-full sm:w-auto">
                 Register Now
               </Button>
             </Link>
-            <Link to="/about">
-              <Button size="lg" variant="outline" className="border-white/40 text-white">
+            <Link to="/about" className="min-w-0 sm:flex-none">
+              <Button size="lg" variant="outline" className="w-full border-white/40 text-white sm:w-auto">
                 How It Works
               </Button>
             </Link>

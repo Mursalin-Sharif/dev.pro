@@ -27,8 +27,9 @@ export function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-[1001] grid h-[55px] grid-cols-5 justify-around rounded-t-xl bg-[#030d43] px-2 pt-1.5 pb-[env(safe-area-inset-bottom)] lg:hidden"
+      className="fixed bottom-0 left-0 right-0 z-[1001] grid min-h-[55px] grid-cols-5 justify-around rounded-t-xl bg-[#030d43] px-1 pt-1.5 pb-[max(0.35rem,env(safe-area-inset-bottom))] sm:px-2 lg:hidden"
       aria-label="Primary mobile navigation"
+      style={{ height: 'calc(55px + env(safe-area-inset-bottom, 0px))' }}
     >
       {leftItems.map((item) => (
         <BottomNavLink key={item.to} {...item} />
@@ -59,8 +60,8 @@ export function MobileBottomNav() {
         onClick={toggleMobileMenu}
         className="flex flex-col items-center justify-center gap-0.5 text-white"
       >
-        <Menu size={22} strokeWidth={2.5} />
-        <span className="text-[10px] font-bold leading-none tracking-wide uppercase">
+        <Menu size={20} strokeWidth={2.5} className="shrink-0 sm:size-[22px]" />
+        <span className="max-w-full truncate px-0.5 text-[9px] font-bold leading-none tracking-wide uppercase sm:text-[10px]">
           {t('mobileNav.menu')}
         </span>
       </button>
@@ -79,8 +80,10 @@ function BottomNavLink({ to, icon: Icon, label }: BottomNavItem) {
         )
       }
     >
-      <Icon size={22} strokeWidth={2.5} />
-      <span className="text-[10px] font-bold leading-none tracking-wide uppercase">{label}</span>
+      <Icon size={20} strokeWidth={2.5} className="shrink-0 sm:size-[22px]" />
+      <span className="max-w-full truncate px-0.5 text-[9px] font-bold leading-none tracking-wide uppercase sm:text-[10px]">
+        {label}
+      </span>
     </NavLink>
   )
 }

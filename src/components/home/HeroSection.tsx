@@ -8,15 +8,16 @@ import { NetworkBackground } from '@/components/home/NetworkBackground'
 import { SponsorsMarquee } from '@/components/home/SponsorsMarquee'
 import { fadeUp, floatY, floatYSlow, slideFromLeft, slideFromRight, staggerContainer } from '@/lib/motion'
 
-/** Top chrome ≈ announcement + sticky header (~6.5rem). */
-const HERO_MIN_H = 'min-h-[calc(100svh-6.5rem)]'
+/** Top chrome ≈ announcement + sticky header; mobile also clears bottom nav. */
+const HERO_MIN_H =
+  'min-h-[calc(100svh-6.5rem)] max-lg:min-h-[calc(100svh-6.5rem-4.25rem-env(safe-area-inset-bottom,0px))]'
 
 export function HeroSection() {
   const { t } = useTranslation('home')
 
   return (
     <section
-      className={`relative flex ${HERO_MIN_H} flex-col justify-center overflow-hidden bg-navy text-white max-lg:pb-[calc(3.75rem+env(safe-area-inset-bottom))]`}
+      className={`relative flex ${HERO_MIN_H} flex-col justify-center overflow-x-clip overflow-y-hidden bg-navy text-white max-lg:pb-4`}
     >
       <div className="pointer-events-none absolute inset-0">
         <img
@@ -81,9 +82,9 @@ export function HeroSection() {
           </motion.p>
           <motion.div
             variants={slideFromLeft}
-            className="mt-4 flex w-full max-w-md flex-row flex-wrap items-center justify-center gap-2 sm:mt-7 sm:max-w-none sm:gap-4 lg:justify-start"
+            className="mt-4 flex w-full max-w-md flex-col items-stretch gap-2 sm:mt-7 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4 lg:justify-start"
           >
-            <Link to="/register" className="min-w-0 flex-1 sm:flex-none">
+            <Link to="/register" className="min-w-0 sm:flex-none">
               <Button
                 size="md"
                 icon={<ArrowRight size={16} />}
@@ -92,7 +93,7 @@ export function HeroSection() {
                 {t('hero.ctaPrimary')}
               </Button>
             </Link>
-            <Link to="/videos" className="min-w-0 flex-1 sm:flex-none">
+            <Link to="/videos" className="min-w-0 sm:flex-none">
               <Button
                 size="md"
                 variant="outline"

@@ -40,7 +40,7 @@ export function FeaturesSection() {
                 <img
                   src={item.src}
                   alt={item.label}
-                  className="aspect-[3/4] h-full w-full object-cover sm:aspect-square"
+                  className="aspect-square h-full w-full object-cover sm:aspect-[3/4] lg:aspect-square"
                   loading="lazy"
                   draggable={false}
                 />

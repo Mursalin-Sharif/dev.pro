@@ -18,7 +18,7 @@ export function KeyDatesSection() {
       <div className="container-page">
         <SectionHeading eyebrow="SEASON ROADMAP" title="Key Dates" tone="dark" />
         <div className="mt-12">
-          <Carousel slideClassName="w-72 sm:w-80" tone="dark">
+          <Carousel slideClassName="w-[min(100%,18rem)] sm:w-80" tone="dark">
             {timeline.map((item, i) => (
               <TimelineCard key={item.id} item={item} index={i} />
             ))}

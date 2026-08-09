@@ -92,7 +92,7 @@ export default function Login() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl border border-black/5 bg-white p-6 shadow-card sm:p-8"
+            className="rounded-2xl border border-black/5 bg-white p-4 shadow-card sm:p-6 md:p-8"
           >
             {!isSupabaseConfigured && (
               <p className="mb-4 rounded-lg bg-warning/10 px-4 py-3 text-xs font-semibold text-warning">

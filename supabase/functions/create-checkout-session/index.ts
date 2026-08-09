@@ -2,12 +2,10 @@
 // Creates a Stripe Checkout Session for the flat registration fee and
 // returns the Checkout URL to the client.
 //
-// No registration row is created here. The submitted details travel with
-// the Checkout Session as `metadata`, and the `stripe-webhook` function is
-// the only place a `registrations` row ever gets inserted — and only once
-// Stripe confirms the payment actually succeeded. This means a
-// cancelled/failed payment never produces a record, so it can never show up
-// in the Admin Dashboard.
+// No registration row and no Auth account are created here.
+// Details travel as Checkout Session metadata. A row + account are created
+// only after Stripe confirms payment (webhook and/or finalize-paid-registration).
+// Cancelled / declined / unpaid checkouts create nothing.
 //
 // Required secrets (set via `supabase secrets set`):
 //   STRIPE_SECRET_KEY

@@ -53,7 +53,7 @@ export default function Register() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="order-1 rounded-2xl border border-black/5 bg-white p-6 shadow-card sm:p-10 lg:order-2"
+            className="order-1 rounded-2xl border border-black/5 bg-white p-4 shadow-card sm:p-6 md:p-10 lg:order-2"
           >
             <RegistrationForm />
           </motion.div>

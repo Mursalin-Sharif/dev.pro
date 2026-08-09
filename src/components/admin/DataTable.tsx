@@ -68,9 +68,11 @@ export function DataTable<T extends object>({
         {data.map((row) => (
           <div key={String(row[keyField])} className="flex flex-col gap-2 p-4">
             {columns.map((col) => (
-              <div key={col.key} className="flex items-center justify-between gap-3 text-sm">
-                <span className="font-semibold text-muted">{col.header}</span>
-                <span className="text-right text-ink/80">{col.render(row)}</span>
+              <div key={col.key} className="flex flex-col gap-1 text-sm sm:flex-row sm:items-start sm:justify-between sm:gap-3">
+                <span className="shrink-0 font-semibold text-muted">{col.header}</span>
+                <span className="min-w-0 w-full break-words text-left text-ink/80 sm:max-w-[65%] sm:text-right">
+                  {col.render(row)}
+                </span>
               </div>
             ))}
           </div>

@@ -36,7 +36,7 @@ function MarqueeLogo({
 
   const className = cn(
     'relative flex shrink-0 items-center justify-center overflow-hidden rounded-xl',
-    compact ? 'h-11 w-[128px] sm:h-16 sm:w-[160px]' : 'h-16 w-[160px] sm:h-20 sm:w-[180px]',
+    compact ? 'h-10 w-[110px] sm:h-16 sm:w-[160px]' : 'h-14 w-[140px] sm:h-20 sm:w-[180px]',
     variant === 'dark'
       ? 'border border-white/15 bg-white shadow-[0_8px_24px_-12px_rgba(0,0,0,0.45)]'
       : 'border border-black/5 bg-white shadow-card',

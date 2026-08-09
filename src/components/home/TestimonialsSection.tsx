@@ -16,7 +16,7 @@ export function TestimonialsSection() {
       <div className="container-page">
         <SectionHeading eyebrow="COMMUNITY" title="Join The Fastest Growing Community" subtitle="Hear from players and coaches across the Hopeland Global Checkers community." />
         <div className="mt-12">
-          <Carousel slideClassName="w-80 sm:w-96">
+          <Carousel slideClassName="w-[min(100%,20rem)] sm:w-96">
             {testimonials.map((testimonial) => (
               <TestimonialCard key={testimonial.id} testimonial={testimonial} />
             ))}

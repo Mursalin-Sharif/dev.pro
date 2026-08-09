@@ -43,19 +43,19 @@ export function Header() {
         scrolled ? 'border-black/5 bg-white/90 backdrop-blur-md' : 'border-transparent bg-white',
       )}
     >
-      <div className="container-page flex items-center justify-between gap-4">
-        <Link to="/" className="text-h3 font-display font-extrabold text-ink">
+      <div className="container-page flex min-w-0 items-center justify-between gap-2 sm:gap-4">
+        <Link to="/" className="min-w-0 shrink truncate text-lg font-display font-extrabold text-ink sm:text-xl md:text-h3">
           Hopeland<span className="text-primary">.</span>
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden min-w-0 items-center gap-5 xl:gap-7 lg:flex">
           {navLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
               className={({ isActive }) =>
                 cn(
-                  'text-sm font-semibold transition-colors hover:text-primary',
+                  'whitespace-nowrap text-sm font-semibold transition-colors hover:text-primary',
                   isActive ? 'text-primary' : 'text-ink',
                 )
               }
@@ -65,9 +65,9 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <LanguageSwitcher />
-          <div className="hidden items-center gap-2 sm:flex">
+          <div className="hidden items-center gap-2 md:flex">
             {isPaidPlayer ? (
               <Link to="/account">
                 <Button size="sm" variant="outline" icon={<UserRound size={16} />}>

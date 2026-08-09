@@ -16,8 +16,8 @@ export function AboutTeaserSection() {
           variants={slideFromLeft}
           className="order-2 lg:order-1"
         >
-          <motion.div animate={floatY} className="relative mx-auto max-w-lg">
-            <div className="absolute -inset-4 rounded-[2rem] bg-primary/15 blur-2xl" />
+          <motion.div animate={floatY} className="relative mx-auto max-w-lg overflow-hidden">
+            <div className="absolute -inset-4 rounded-[2rem] bg-primary/15 blur-2xl" aria-hidden />
             <div className="relative aspect-square overflow-hidden rounded-3xl border border-navy/10 bg-navy shadow-[0_20px_60px_-20px_rgba(3,13,67,0.55)]">
               <img
                 src="/home/home-about-board.png"
@@ -48,9 +48,9 @@ export function AboutTeaserSection() {
             open regional qualifiers to a live-streamed world final. Every match is judged by a certified referee
             panel, every player has a path to the top board, and every result is public and verifiable.
           </p>
-          <div className="mt-6 flex items-center gap-3 text-sm font-semibold text-ink">
-            <Trophy size={18} className="text-primary" />
-            Open, Masters, and Junior divisions for every skill level
+          <div className="mt-6 flex items-start gap-3 text-sm font-semibold text-ink sm:items-center">
+            <Trophy size={18} className="mt-0.5 shrink-0 text-primary sm:mt-0" />
+            <span className="min-w-0">Open, Masters, and Junior divisions for every skill level</span>
           </div>
           <div className="mt-8">
             <Link to="/about">

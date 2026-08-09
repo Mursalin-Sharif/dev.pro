@@ -28,9 +28,9 @@ export function Footer() {
   ]
 
   return (
-    <footer className="bg-navy pb-24 text-white/70 lg:pb-0">
-      <div className="container-page section-y flex flex-col gap-12 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
-        <div className="max-w-sm">
+    <footer className="bg-navy pb-[calc(5rem+env(safe-area-inset-bottom))] text-white/70 lg:pb-0">
+      <div className="container-page section-y flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between lg:gap-10">
+        <div className="max-w-sm min-w-0">
           <p className="text-h2 font-display font-extrabold text-white">
             Hopeland<span className="text-primary">.</span>
           </p>
@@ -38,7 +38,7 @@ export function Footer() {
           <p className="mt-8 text-xs text-white/40">
             &copy; {new Date().getFullYear()} Hopeland Global Checkers
           </p>
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex flex-wrap gap-3">
             {socials.map((s) => (
               <a
                 key={s.label}
@@ -52,14 +52,14 @@ export function Footer() {
           </div>
         </div>
 
-        <div>
-          <p className="text-eyebrow mb-6">{t('footer.sitemapHeading')}</p>
-          <div className="grid grid-cols-2 gap-x-14 gap-y-5 sm:gap-x-20">
+        <div className="min-w-0 w-full lg:w-auto">
+          <p className="text-eyebrow mb-5 sm:mb-6">{t('footer.sitemapHeading')}</p>
+          <div className="grid grid-cols-2 gap-x-6 gap-y-4 sm:gap-x-12 sm:gap-y-5 md:gap-x-20">
             {sitemapLinks.map((link) => (
               <Link
                 key={link.to}
                 to={link.to}
-                className="text-lg font-extrabold tracking-tight text-white uppercase underline decoration-primary/70 decoration-2 underline-offset-8 transition-colors hover:text-primary"
+                className="break-words text-xs font-extrabold leading-snug tracking-tight text-white underline decoration-primary/70 decoration-2 underline-offset-4 transition-colors hover:text-primary sm:text-sm sm:uppercase sm:underline-offset-8 md:text-base"
               >
                 {link.label}
               </Link>

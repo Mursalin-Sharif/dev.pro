@@ -12,8 +12,9 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [react(), tailwindcss(), stripeCheckoutPlugin(env)],
     server: {
-      // Bind IPv4 explicitly — Windows often refuses 127.0.0.1 when Vite only listens on ::1
-      host: '127.0.0.1',
+      // Listen on all local interfaces so both localhost and 127.0.0.1 work
+      // (Cursor/embedded browsers often hit localhost → different loopback path).
+      host: true,
       port: 5173,
       strictPort: true,
     },

@@ -1,63 +1,206 @@
+import { FunctionsHttpError } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabaseClient'
 import { clearPendingAuth, readPendingAuth } from '@/lib/pendingAuth'
 import type { Registration } from '@/types'
 
+type FinalizeResponse = {
+  paid?: boolean
+  registration?: Registration
+  accountCreated?: boolean
+  accountError?: string | null
+  error?: string
+}
+
+async function finalizeViaLocalApi(
+  sessionId: string,
+  password: string,
+): Promise<FinalizeResponse | null> {
+  try {
+    const res = await fetch('/api/finalize-paid-registration', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        password: password.length >= 6 ? password : undefined,
+      }),
+    })
+    if (res.status === 404) return null
+    const data = (await res.json()) as FinalizeResponse
+    if (!res.ok) {
+      return {
+        paid: data.paid,
+        error: data.error ?? 'Could not finalize payment.',
+        registration: data.registration,
+      }
+    }
+    return data
+  } catch {
+    return null
+  }
+}
+
+async function finalizeViaEdgeFunction(
+  sessionId: string,
+  password: string,
+): Promise<{ data: FinalizeResponse | null; errorMessage: string | null; unpaid: boolean }> {
+  const { data, error } = await supabase.functions.invoke<FinalizeResponse>('finalize-paid-registration', {
+    body: {
+      sessionId,
+      password: password.length >= 6 ? password : undefined,
+    },
+  })
+
+  if (error) {
+    if (error instanceof FunctionsHttpError) {
+      try {
+        const body = (await error.context.json()) as FinalizeResponse
+        if (body?.error) {
+          return {
+            data: body,
+            errorMessage: body.error,
+            unpaid: body.paid === false || /not completed|not paid|invalid checkout/i.test(body.error),
+          }
+        }
+      } catch {
+        // fall through
+      }
+    }
+    return { data: null, errorMessage: error.message, unpaid: false }
+  }
+
+  return { data: data ?? null, errorMessage: null, unpaid: false }
+}
+
 /**
- * After Stripe payment is confirmed, create (or sign into) the Auth account
- * using the password saved in sessionStorage during Register Now.
- * Registration rows themselves are created only by the stripe-webhook.
+ * After Stripe redirects to success: verify payment, save registration only if
+ * paid, and create Auth account only if paid.
+ * Tries local Vite API first (dev), then Supabase Edge Function.
  */
+export async function finalizePaidRegistration(sessionId: string): Promise<{
+  registration: Registration | null
+  error: string | null
+  unpaid: boolean
+}> {
+  const pending = readPendingAuth()
+  const password = pending?.password ?? ''
+
+  let result = await finalizeViaLocalApi(sessionId, password)
+
+  if (!result || result.error) {
+    const edge = await finalizeViaEdgeFunction(sessionId, password)
+    if (edge.data?.paid && edge.data.registration) {
+      result = edge.data
+    } else if (!result) {
+      // Edge-only failure (function not deployed / network).
+      if (edge.errorMessage) {
+        // Last resort: webhook may already have inserted the row.
+        const { data: existing } = await supabase.functions.invoke<Registration>('get-registration-by-session', {
+          body: { sessionId },
+        })
+        if (existing?.status === 'paid') {
+          await activatePaidAccount(existing)
+          clearPendingAuth()
+          return { registration: existing, error: null, unpaid: false }
+        }
+        clearPendingAuth()
+        return {
+          registration: null,
+          error:
+            /Failed to send a request to the Edge Function|not found|FunctionsFetchError/i.test(edge.errorMessage)
+              ? 'Payment may have succeeded, but account setup is not connected yet. Add SUPABASE_SERVICE_ROLE_KEY to .env and restart npm run dev, or deploy finalize-paid-registration.'
+              : edge.errorMessage,
+          unpaid: edge.unpaid,
+        }
+      }
+    } else if (result.error && !result.registration) {
+      // Local returned a clear unpaid / config error — prefer that message.
+      clearPendingAuth()
+      const unpaid =
+        result.paid === false ||
+        (/not completed|not paid|invalid checkout/i.test(result.error) &&
+          !/SERVICE_ROLE|not configured|not connected/i.test(result.error))
+      return {
+        registration: null,
+        error: result.error,
+        unpaid,
+      }
+    }
+  }
+
+  if (!result?.paid || !result.registration) {
+    clearPendingAuth()
+    const message = result?.error ?? 'Payment not completed. No account was created.'
+    const unpaid =
+      result?.paid === false ||
+      (!result?.paid &&
+        /not completed|not paid|invalid checkout/i.test(message) &&
+        !/SERVICE_ROLE|not configured|not connected/i.test(message))
+    return {
+      registration: null,
+      error: message,
+      unpaid: Boolean(unpaid),
+    }
+  }
+
+  if (pending && password.length >= 6 && pending.email === result.registration.email.trim().toLowerCase()) {
+    await supabase.auth.signInWithPassword({ email: pending.email, password })
+  }
+
+  clearPendingAuth()
+  return { registration: result.registration, error: null, unpaid: false }
+}
+
+/** Demo / webhook-fallback path: create Auth only when registration is already paid. */
 export async function activatePaidAccount(registration: Registration): Promise<{ error: string | null }> {
+  if (registration.status !== 'paid') {
+    clearPendingAuth()
+    return { error: 'Payment not completed. No account was created.' }
+  }
+
   const pending = readPendingAuth()
   const email = registration.email.trim().toLowerCase()
-
-  if (pending && pending.email !== email) {
-    clearPendingAuth()
-  }
-
   const password = pending?.email === email ? pending.password : null
 
-  // Attach registration snapshot for client profile fallback.
-  const meta = {
-    championship_registration: registration,
-    first_name: registration.first_name,
-    last_name: registration.last_name,
-  }
-
-  if (password) {
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: meta },
-    })
-
-    if (!signUpError) {
-      clearPendingAuth()
-      if (signUpData.session) return { error: null }
-      // Email confirm may be required — still try password sign-in.
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
-      clearPendingAuth()
-      return { error: signInError?.message ?? null }
-    }
-
-    const exists = /already registered|already been registered|user already exists/i.test(
-      signUpError.message,
-    )
-    if (exists) {
-      const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
-      if (!signInError) {
-        await supabase.auth.updateUser({ data: meta })
-      }
-      clearPendingAuth()
-      return { error: signInError?.message ?? null }
-    }
-
+  if (!password) {
     clearPendingAuth()
-    return { error: signUpError.message }
+    return { error: null }
   }
 
-  // Payment confirmed but password session was lost — user can set login via Sign In
-  // after creating/recovering their password. Registration is already in DB.
+  const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        championship_registration: registration,
+        first_name: registration.first_name,
+        last_name: registration.last_name,
+      },
+    },
+  })
+
+  if (!signUpError) {
+    clearPendingAuth()
+    if (signUpData.session) return { error: null }
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+    return { error: signInError?.message ?? null }
+  }
+
+  const exists = /already registered|already been registered|user already exists/i.test(signUpError.message)
+  if (exists) {
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password })
+    if (!signInError) {
+      await supabase.auth.updateUser({
+        data: {
+          championship_registration: registration,
+          first_name: registration.first_name,
+          last_name: registration.last_name,
+        },
+      })
+    }
+    clearPendingAuth()
+    return { error: signInError?.message ?? null }
+  }
+
   clearPendingAuth()
-  return { error: null }
+  return { error: signUpError.message }
 }

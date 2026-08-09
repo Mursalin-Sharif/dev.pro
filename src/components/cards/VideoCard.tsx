@@ -24,7 +24,7 @@ export function VideoCard({ video, onPlay }: { video: Video; onPlay?: (video: Vi
           </span>
         </div>
       </div>
-      <p className="mt-4 text-h3 text-ink">{video.title}</p>
+      <p className="mt-4 line-clamp-2 break-words text-h3 text-ink">{video.title}</p>
       {video.description && <p className="mt-1 line-clamp-2 text-sm text-muted">{video.description}</p>}
       <p className="mt-2 text-xs font-semibold text-muted uppercase">{formatDate(video.created_at)}</p>
     </motion.button>

@@ -172,16 +172,16 @@ export default function Account() {
                     }}
                   />
                   <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-                    <div className="flex items-center gap-4">
-                      <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 text-xl font-display font-extrabold text-primary ring-2 ring-primary/40">
+                    <div className="flex min-w-0 items-center gap-4">
+                      <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-primary/20 text-xl font-display font-extrabold text-primary ring-2 ring-primary/40">
                         {initials(registration.first_name, registration.last_name, user?.email)}
                       </span>
-                      <div>
+                      <div className="min-w-0">
                         <p className="text-eyebrow text-primary">World Championship</p>
-                        <h2 className="text-h2 mt-1 text-white">{displayName}</h2>
-                        <p className="mt-1 flex items-center gap-2 text-sm text-white/70">
-                          <Mail size={14} />
-                          {user?.email}
+                        <h2 className="text-h2 mt-1 break-words text-white">{displayName}</h2>
+                        <p className="mt-1 flex min-w-0 items-center gap-2 text-sm text-white/70">
+                          <Mail size={14} className="shrink-0" />
+                          <span className="min-w-0 break-all">{user?.email}</span>
                         </p>
                       </div>
                     </div>

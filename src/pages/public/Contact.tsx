@@ -58,7 +58,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col gap-5 rounded-2xl border border-black/5 bg-white p-6 shadow-card sm:p-8"
+            className="flex flex-col gap-5 rounded-2xl border border-black/5 bg-white p-4 shadow-card sm:p-6 md:p-8"
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <FormField label="Full Name" name="name" placeholder="Jane Doe" required />

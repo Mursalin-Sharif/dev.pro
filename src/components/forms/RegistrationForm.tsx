@@ -122,8 +122,8 @@ export function RegistrationForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
       <div className="rounded-xl border border-primary/15 bg-primary/5 px-4 py-3 text-xs text-muted">
-        Your details are saved to our database <span className="font-semibold text-ink">only after payment succeeds</span>.
-        If payment fails or is cancelled, nothing is registered — you can try again.
+        Your player account opens <span className="font-semibold text-ink">only after payment succeeds</span>.
+        If the card is declined, cancelled, or has no balance — no account is created and nothing is saved.
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
@@ -166,16 +166,16 @@ export function RegistrationForm() {
         player profile.
       </p>
 
-      <div className="flex items-center justify-between rounded-xl border border-black/10 bg-surface-light px-5 py-4">
-        <div>
+      <div className="flex flex-col gap-2 rounded-xl border border-black/10 bg-surface-light px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5">
+        <div className="min-w-0">
           <p className="text-sm font-bold text-ink">Registration Fee</p>
           <p className="text-xs text-muted">Charged only when payment completes</p>
         </div>
         <p className="text-h3 text-primary">{formatCurrency(registrationFee.amount, registrationFee.currency)}</p>
       </div>
 
-      <Button type="submit" size="lg" disabled={submitting} className="w-full" icon={submitting ? <Loader2 className="animate-spin" size={18} /> : undefined}>
-        {submitting ? 'Redirecting to payment…' : 'Register Now'}
+      <Button type="submit" size="lg" disabled={submitting} className="w-full whitespace-normal" icon={submitting ? <Loader2 className="animate-spin" size={18} /> : undefined}>
+        {submitting ? 'Redirecting…' : 'Register Now'}
       </Button>
 
       <p className="flex items-center justify-center gap-1.5 text-center text-xs text-muted">
