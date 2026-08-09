@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "Start",
+    "about": "Über uns",
+    "videos": "Videos",
+    "blog": "Blog",
+    "sponsors": "Sponsoren",
+    "contact": "Kontakt"
+  },
+  "header": {
+    "registerCta": "Jetzt Registrieren",
+    "signIn": "Anmelden",
+    "account": "Konto"
+  },
+  "mobileNav": {
+    "home": "Start",
+    "videos": "Videos",
+    "blog": "Blog",
+    "sports": "Sport",
+    "register": "Anmeldung",
+    "menu": "Menü"
+  },
+  "announcement": {
+    "text": "Die Anmeldung zur Meisterschaft ist eröffnet",
+    "cta": "Platz sichern"
+  },
+  "footer": {
+    "tagline": "Die internationale Dame-Meisterschaft — antreten, vernetzen und ganz nach oben spielen.",
+    "sitemapHeading": "Sitemap",
+    "exploreHeading": "Entdecken",
+    "legalHeading": "Rechtliches",
+    "connectHeading": "Vernetzen",
+    "rights": "Alle Rechte vorbehalten."
+  },
+  "language": {
+    "label": "Sprache"
+  },
+  "buttons": {
+    "learnMore": "Mehr erfahren",
+    "watchNow": "Jetzt ansehen",
+    "readMore": "Weiterlesen"
+  }
+}

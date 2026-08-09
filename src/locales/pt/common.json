@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "Início",
+    "about": "Sobre",
+    "videos": "Vídeos",
+    "blog": "Blog",
+    "sponsors": "Patrocinadores",
+    "contact": "Contato"
+  },
+  "header": {
+    "registerCta": "Inscreva-se Agora",
+    "signIn": "Entrar",
+    "account": "Conta"
+  },
+  "mobileNav": {
+    "home": "Início",
+    "videos": "Vídeos",
+    "blog": "Blog",
+    "sports": "Esportes",
+    "register": "Inscrição",
+    "menu": "Menu"
+  },
+  "announcement": {
+    "text": "As inscrições para o Campeonato estão abertas",
+    "cta": "Garanta sua vaga"
+  },
+  "footer": {
+    "tagline": "O campeonato internacional de damas — compita, conecte-se e chegue ao tabuleiro principal.",
+    "sitemapHeading": "Mapa do site",
+    "exploreHeading": "Explorar",
+    "legalHeading": "Legal",
+    "connectHeading": "Conecte-se",
+    "rights": "Todos os direitos reservados."
+  },
+  "language": {
+    "label": "Idioma"
+  },
+  "buttons": {
+    "learnMore": "Saiba mais",
+    "watchNow": "Assista agora",
+    "readMore": "Leia mais"
+  }
+}

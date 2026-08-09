@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "होम",
+    "about": "परिचय",
+    "videos": "वीडियो",
+    "blog": "ब्लॉग",
+    "sponsors": "प्रायोजक",
+    "contact": "संपर्क करें"
+  },
+  "header": {
+    "registerCta": "अभी रजिस्टर करें",
+    "signIn": "साइन इन",
+    "account": "अकाउंट"
+  },
+  "mobileNav": {
+    "home": "होम",
+    "videos": "वीडियो",
+    "blog": "ब्लॉग",
+    "sports": "स्पोर्ट्स",
+    "register": "रजिस्ट्रेशन",
+    "menu": "मेनू"
+  },
+  "announcement": {
+    "text": "चैंपियनशिप के लिए रजिस्ट्रेशन खुला है",
+    "cta": "अपनी जगह सुरक्षित करें"
+  },
+  "footer": {
+    "tagline": "अंतरराष्ट्रीय चेकर्स चैंपियनशिप — प्रतिस्पर्धा करें, जुड़ें, और शीर्ष तक पहुंचें।",
+    "sitemapHeading": "साइटमैप",
+    "exploreHeading": "एक्सप्लोर करें",
+    "legalHeading": "कानूनी",
+    "connectHeading": "जुड़ें",
+    "rights": "सर्वाधिकार सुरक्षित।"
+  },
+  "language": {
+    "label": "भाषा"
+  },
+  "buttons": {
+    "learnMore": "अधिक जानें",
+    "watchNow": "अभी देखें",
+    "readMore": "और पढ़ें"
+  }
+}

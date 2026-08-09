@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "about": "À propos",
+    "videos": "Vidéos",
+    "blog": "Blog",
+    "sponsors": "Sponsors",
+    "contact": "Contact"
+  },
+  "header": {
+    "registerCta": "S'inscrire maintenant",
+    "signIn": "Connexion",
+    "account": "Compte"
+  },
+  "mobileNav": {
+    "home": "Accueil",
+    "videos": "Vidéos",
+    "blog": "Blog",
+    "sports": "Sports",
+    "register": "Inscription",
+    "menu": "Menu"
+  },
+  "announcement": {
+    "text": "Les inscriptions pour le Championnat sont ouvertes",
+    "cta": "Réservez votre place"
+  },
+  "footer": {
+    "tagline": "Le championnat international de jeu de dames — participez, connectez-vous et atteignez le plus haut niveau.",
+    "sitemapHeading": "Plan du site",
+    "exploreHeading": "Explorer",
+    "legalHeading": "Mentions légales",
+    "connectHeading": "Nous suivre",
+    "rights": "Tous droits réservés."
+  },
+  "language": {
+    "label": "Langue"
+  },
+  "buttons": {
+    "learnMore": "En savoir plus",
+    "watchNow": "Regarder",
+    "readMore": "Lire la suite"
+  }
+}

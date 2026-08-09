@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "首页",
+    "about": "关于我们",
+    "videos": "视频",
+    "blog": "博客",
+    "sponsors": "赞助商",
+    "contact": "联系我们"
+  },
+  "header": {
+    "registerCta": "立即报名",
+    "signIn": "登录",
+    "account": "账户"
+  },
+  "mobileNav": {
+    "home": "首页",
+    "videos": "视频",
+    "blog": "博客",
+    "sports": "体育",
+    "register": "报名",
+    "menu": "菜单"
+  },
+  "announcement": {
+    "text": "锦标赛报名现已开放",
+    "cta": "立即抢占名额"
+  },
+  "footer": {
+    "tagline": "国际跳棋锦标赛——参赛、连接，登上最高棋盘。",
+    "sitemapHeading": "网站地图",
+    "exploreHeading": "探索",
+    "legalHeading": "法律信息",
+    "connectHeading": "关注我们",
+    "rights": "版权所有。"
+  },
+  "language": {
+    "label": "语言"
+  },
+  "buttons": {
+    "learnMore": "了解更多",
+    "watchNow": "立即观看",
+    "readMore": "阅读更多"
+  }
+}

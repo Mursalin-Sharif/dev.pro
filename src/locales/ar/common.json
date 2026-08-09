@@ -1,0 +1,43 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "about": "حول البطولة",
+    "videos": "الفيديوهات",
+    "blog": "المدونة",
+    "sponsors": "الرعاة",
+    "contact": "تواصل معنا"
+  },
+  "header": {
+    "registerCta": "سجّل الآن",
+    "signIn": "تسجيل الدخول",
+    "account": "الحساب"
+  },
+  "mobileNav": {
+    "home": "الرئيسية",
+    "videos": "الفيديوهات",
+    "blog": "المدونة",
+    "sports": "الرياضة",
+    "register": "التسجيل",
+    "menu": "القائمة"
+  },
+  "announcement": {
+    "text": "التسجيل مفتوح لالبطولة",
+    "cta": "احجز مكانك"
+  },
+  "footer": {
+    "tagline": "البطولة الدولية للداما — نافس، تواصل، واصعد إلى القمة.",
+    "sitemapHeading": "خريطة الموقع",
+    "exploreHeading": "استكشف",
+    "legalHeading": "قانوني",
+    "connectHeading": "تواصل معنا",
+    "rights": "جميع الحقوق محفوظة."
+  },
+  "language": {
+    "label": "اللغة"
+  },
+  "buttons": {
+    "learnMore": "اعرف أكثر",
+    "watchNow": "شاهد الآن",
+    "readMore": "اقرأ أكثر"
+  }
+}

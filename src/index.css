@@ -1,0 +1,153 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Color tokens — structurally inspired by the reference site's alternating
+     dark/light rhythm, but an original palette (see plan §4 Design System). */
+  --color-primary: #0ea5e9;
+  --color-primary-light: #38bdf8;
+  --color-primary-dark: #071040;
+  --color-navy: #071040;
+  --color-navy-soft: #0b1a5c;
+  --color-surface-light: #f5f6fa;
+  --color-surface-white: #ffffff;
+  --color-ink: #0a0e2b;
+  --color-muted: #6b7290;
+  --color-success: #22c55e;
+  --color-error: #e11d63;
+  --color-warning: #d4a700;
+  --color-info: #38d9c9;
+  --color-checkers-red: #d43b3b;
+  --color-checkers-black: #14172c;
+  --color-accent-violet: #8b5cf6;
+
+  --font-sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Sora', 'DM Sans', system-ui, sans-serif;
+
+  --shadow-glow: 0 0 60px -10px rgba(14, 165, 233, 0.35);
+  --shadow-card: 0 8px 30px -8px rgba(7, 16, 64, 0.18);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-marquee: marquee 32s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-surface-white text-ink font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-ink;
+  }
+
+  a,
+  button,
+  [tabindex] {
+    outline-color: var(--color-primary);
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  [tabindex]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .text-display {
+    font-size: clamp(2.25rem, 3vw + 1.5rem, 4rem);
+    line-height: 1.05;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .text-h1 {
+    font-size: clamp(2rem, 2.4vw + 1.3rem, 3.5rem);
+    line-height: 1.08;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .text-h2 {
+    font-size: clamp(1.75rem, 1.6vw + 1.25rem, 2.75rem);
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  .text-h3 {
+    font-size: clamp(1.25rem, 0.8vw + 1rem, 1.75rem);
+    line-height: 1.2;
+    font-weight: 700;
+  }
+
+  .text-body-lg {
+    font-size: clamp(1rem, 0.3vw + 0.9rem, 1.25rem);
+    line-height: 1.6;
+  }
+
+  .text-eyebrow {
+    @apply text-primary text-xs font-bold tracking-[0.2em] uppercase;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-y {
+    @apply py-16 md:py-24 lg:py-28;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .checker-divider {
+    background-image: repeating-linear-gradient(
+      45deg,
+      var(--color-checkers-black) 0,
+      var(--color-checkers-black) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+  }
+
+}

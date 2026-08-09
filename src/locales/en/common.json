@@ -1,0 +1,45 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "videos": "Videos",
+    "blog": "Blog",
+    "sponsors": "Sponsors",
+    "contact": "Contact"
+  },
+  "header": {
+    "registerCta": "Register Now",
+    "myProfile": "My Profile",
+    "signIn": "Sign In",
+    "account": "Account"
+  },
+  "mobileNav": {
+    "home": "Home",
+    "videos": "Videos",
+    "blog": "Blog",
+    "sports": "Sports",
+    "register": "Register",
+    "profile": "Profile",
+    "menu": "Menu"
+  },
+  "announcement": {
+    "text": "Registration is open for the Championship",
+    "cta": "Secure your spot"
+  },
+  "footer": {
+    "tagline": "The international checkers championship — compete, connect, and rise to the top board.",
+    "sitemapHeading": "Sitemap",
+    "exploreHeading": "Explore",
+    "legalHeading": "Legal",
+    "connectHeading": "Connect",
+    "rights": "All rights reserved."
+  },
+  "language": {
+    "label": "Language"
+  },
+  "buttons": {
+    "learnMore": "Learn more",
+    "watchNow": "Watch now",
+    "readMore": "Read more"
+  }
+}

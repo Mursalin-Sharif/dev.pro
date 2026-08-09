@@ -1,0 +1,2 @@
+-- Use MAKE_ADMIN.sql instead (same folder).
+-- Open supabase/MAKE_ADMIN.sql → copy all → Supabase SQL Editor → Run.

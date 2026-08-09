@@ -1,0 +1,22 @@
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
+
+export function AnnouncementBar() {
+  const { t } = useTranslation()
+
+  return (
+    <div className="relative z-40 overflow-hidden bg-primary text-white">
+      <div className="container-page flex items-center justify-center gap-2 py-2 text-center text-xs font-bold sm:text-sm">
+        <span className="min-w-0 truncate">{t('announcement.text')}</span>
+        <Link
+          to="/register"
+          className="inline-flex shrink-0 items-center gap-1 underline underline-offset-2 whitespace-nowrap"
+        >
+          {t('announcement.cta')}
+          <ArrowRight size={14} />
+        </Link>
+      </div>
+    </div>
+  )
+}
