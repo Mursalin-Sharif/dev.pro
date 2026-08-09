@@ -1,1 +1,0 @@
-var e=`hopeland-pending-auth`;function t(t,n){let r={email:t.trim().toLowerCase(),password:n};sessionStorage.setItem(e,JSON.stringify(r))}function n(){try{let t=sessionStorage.getItem(e);if(!t)return null;let n=JSON.parse(t);return!n?.email||!n?.password?null:n}catch{return null}}function r(){sessionStorage.removeItem(e)}export{n,t as r,r as t};

@@ -1,1 +1,0 @@
-import{l as e}from"./vendor-data-Du3k8HyE.js";import{t}from"./utils-DYuVTw3X.js";var n=e();function r({size:e=24,className:r}){return(0,n.jsx)(`div`,{role:`status`,"aria-label":`Loading`,className:t(`animate-spin rounded-full border-2 border-current/20 border-t-current`,r),style:{width:e,height:e}})}export{r as t};
