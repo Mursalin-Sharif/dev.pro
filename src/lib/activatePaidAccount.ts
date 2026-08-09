@@ -1,5 +1,6 @@
 import { FunctionsHttpError } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabaseClient'
+import { isDevRuntime } from '@/lib/env'
 import { clearPendingAuth, readPendingAuth } from '@/lib/pendingAuth'
 import type { Registration } from '@/types'
 
@@ -15,6 +16,7 @@ async function finalizeViaLocalApi(
   sessionId: string,
   password: string,
 ): Promise<FinalizeResponse | null> {
+  if (!isDevRuntime) return null
   try {
     const res = await fetch('/api/finalize-paid-registration', {
       method: 'POST',
@@ -25,6 +27,8 @@ async function finalizeViaLocalApi(
       }),
     })
     if (res.status === 404) return null
+    const contentType = res.headers.get('content-type') ?? ''
+    if (!contentType.includes('application/json')) return null
     const data = (await res.json()) as FinalizeResponse
     if (!res.ok) {
       return {
@@ -74,7 +78,7 @@ async function finalizeViaEdgeFunction(
 /**
  * After Stripe redirects to success: verify payment, save registration only if
  * paid, and create Auth account only if paid.
- * Tries local Vite API first (dev), then Supabase Edge Function.
+ * Dev: local Vite API optional. Production/Vercel: Edge Function only.
  */
 export async function finalizePaidRegistration(sessionId: string): Promise<{
   registration: Registration | null
@@ -91,9 +95,7 @@ export async function finalizePaidRegistration(sessionId: string): Promise<{
     if (edge.data?.paid && edge.data.registration) {
       result = edge.data
     } else if (!result) {
-      // Edge-only failure (function not deployed / network).
       if (edge.errorMessage) {
-        // Last resort: webhook may already have inserted the row.
         const { data: existing } = await supabase.functions.invoke<Registration>('get-registration-by-session', {
           body: { sessionId },
         })
@@ -106,14 +108,15 @@ export async function finalizePaidRegistration(sessionId: string): Promise<{
         return {
           registration: null,
           error:
-            /Failed to send a request to the Edge Function|not found|FunctionsFetchError/i.test(edge.errorMessage)
-              ? 'Payment may have succeeded, but account setup is not connected yet. Add SUPABASE_SERVICE_ROLE_KEY to .env and restart npm run dev, or deploy finalize-paid-registration.'
+            /Failed to send a request to the Edge Function|not found|FunctionsFetchError|CORS/i.test(
+              edge.errorMessage,
+            )
+              ? 'Payment may have succeeded, but account setup is not ready yet. Please wait a moment and refresh, or contact support with your payment email.'
               : edge.errorMessage,
           unpaid: edge.unpaid,
         }
       }
     } else if (result.error && !result.registration) {
-      // Local returned a clear unpaid / config error — prefer that message.
       clearPendingAuth()
       const unpaid =
         result.paid === false ||

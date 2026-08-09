@@ -73,23 +73,46 @@ function supabaseConfig(env: EnvMap) {
   return { url, serviceKey }
 }
 
-async function stripeGetSession(secret: string, sessionId: string) {
+type StripeSessionPayload = {
+  id?: string
+  payment_status?: string
+  amount_total?: number
+  currency?: string
+  payment_intent?: string | null
+  metadata?: Record<string, string>
+  error?: { message?: string }
+}
+
+type StripeSessionLookupSuccess = {
+  session: StripeSessionPayload
+}
+
+type StripeSessionLookupError = {
+  error: string
+  status: number
+}
+
+async function stripeGetSession(
+  secret: string,
+  sessionId: string,
+): Promise<StripeSessionLookupSuccess | StripeSessionLookupError> {
   const stripeRes = await fetch(`https://api.stripe.com/v1/checkout/sessions/${encodeURIComponent(sessionId)}`, {
     headers: { Authorization: `Bearer ${secret}` },
   })
-  const data = (await stripeRes.json()) as {
-    id?: string
-    payment_status?: string
-    amount_total?: number
-    currency?: string
-    payment_intent?: string | null
-    metadata?: Record<string, string>
-    error?: { message?: string }
-  }
+  const data = (await stripeRes.json()) as StripeSessionPayload
   if (!stripeRes.ok) {
     return { error: data.error?.message ?? 'Invalid checkout session.', status: stripeRes.status === 404 ? 404 : 502 }
   }
   return { session: data }
+}
+
+type UpsertPaidRegistrationSuccess = {
+  registration: unknown
+}
+
+type UpsertPaidRegistrationError = {
+  error: string
+  status: number
 }
 
 async function upsertPaidRegistration(
@@ -102,7 +125,7 @@ async function upsertPaidRegistration(
     payment_intent?: string | null
     metadata?: Record<string, string>
   },
-) {
+): Promise<UpsertPaidRegistrationSuccess | UpsertPaidRegistrationError> {
   const metadata = session.metadata ?? {}
   const required = ['first_name', 'last_name', 'date_of_birth', 'city', 'country', 'phone', 'email'] as const
   const missing = required.find((field) => !metadata[field])

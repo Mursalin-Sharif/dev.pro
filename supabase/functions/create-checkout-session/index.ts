@@ -75,7 +75,17 @@ Deno.serve(async (req) => {
 
     const feeAmount = Number(Deno.env.get('REGISTRATION_FEE_AMOUNT') ?? '1000')
     const feeCurrency = (Deno.env.get('REGISTRATION_FEE_CURRENCY') ?? 'usd').toLowerCase()
-    const siteUrl = Deno.env.get('SITE_URL') ?? 'http://localhost:5173'
+
+    // Prefer the live browser Origin (Vercel URL) so Stripe never sends users
+    // back to localhost after a production payment. SITE_URL is a fallback.
+    const configured = (Deno.env.get('SITE_URL') ?? '').trim().replace(/\/$/, '')
+    const origin = (req.headers.get('origin') ?? '').trim().replace(/\/$/, '')
+    const isLocal = (u: string) => /localhost|127\.0\.0\.1/i.test(u)
+    const siteUrl =
+      (origin && (origin.startsWith('https://') || !isLocal(origin)) && origin) ||
+      configured ||
+      origin ||
+      'http://localhost:5173'
 
     const firstName = body.firstName.trim()
     const lastName = body.lastName.trim()

@@ -13,6 +13,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabaseClient'
 import { registrationFee } from '@/lib/stripeClient'
 import { formatCurrency } from '@/lib/utils'
 import { savePendingAuth, clearPendingAuth } from '@/lib/pendingAuth'
+import { isDevRuntime } from '@/lib/env'
 import { useCreateDemoRegistration } from '@/hooks/useRegistrations'
 import { useRegistrantStore } from '@/store/registrantStore'
 
@@ -74,27 +75,27 @@ export function RegistrationForm() {
 
       const { password: _password, confirmPassword: _confirm, ...checkoutFields } = values
 
-      // 1) Local Vite checkout (/api/…) when STRIPE_SECRET_KEY is in .env (dev).
-      // 2) Fall back to Supabase Edge Function for production / hosted deploys.
+      // Production / Vercel: always use Supabase Edge Function.
+      // Local Vite `/api/…` only in DEV (that route does not exist on Vercel).
       let checkoutUrl: string | null = null
 
-      try {
-        const localRes = await fetch('/api/create-checkout-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(checkoutFields),
-        })
-        if (localRes.ok) {
-          const localData = (await localRes.json()) as { url?: string; error?: string }
-          if (localData.url) checkoutUrl = localData.url
-          else if (localData.error) throw new Error(localData.error)
-        } else if (localRes.status !== 404) {
-          const localData = (await localRes.json().catch(() => ({}))) as { error?: string }
-          if (localData.error && localRes.status !== 503) throw new Error(localData.error)
-        }
-      } catch (err) {
-        if (err instanceof Error && !/Failed to fetch|NetworkError|fetch/i.test(err.message)) {
-          throw err
+      if (isDevRuntime) {
+        try {
+          const localRes = await fetch('/api/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(checkoutFields),
+          })
+          const contentType = localRes.headers.get('content-type') ?? ''
+          if (localRes.ok && contentType.includes('application/json')) {
+            const localData = (await localRes.json()) as { url?: string; error?: string }
+            if (localData.url) checkoutUrl = localData.url
+            else if (localData.error) throw new Error(localData.error)
+          }
+        } catch (err) {
+          if (err instanceof Error && !/Failed to fetch|NetworkError|fetch|JSON/i.test(err.message)) {
+            throw err
+          }
         }
       }
 

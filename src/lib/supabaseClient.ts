@@ -1,11 +1,12 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@/types/database.types'
+import { hasSupabaseEnv } from '@/lib/env'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-/** True once real Supabase credentials are provided via `.env`. */
-export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseAnonKey)
+/** True once real Supabase credentials are provided (local `.env` or Vercel env). */
+export const isSupabaseConfigured = hasSupabaseEnv()
 
 /**
  * The app is fully functional in "demo mode" (mock data, no network calls)
